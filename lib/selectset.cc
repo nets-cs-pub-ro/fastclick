@@ -33,6 +33,7 @@
 #  define EV_SET_UDATA_CAST	/* nothing */
 # endif
 #endif
+#include <sched.h>
 CLICK_DECLS
 
 namespace {
@@ -450,6 +451,7 @@ SelectSet::run_selects_poll(RouterThread *thread)
 	timeout = -1;
     thread->set_thread_state_for_blocking(delay_type);
 
+    sched_yield();
     int n = poll(my_pollfds.begin(), my_pollfds.size(), timeout);
     int was_errno = errno;
 
